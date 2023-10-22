@@ -6,11 +6,13 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev --manual",
-    "start": "remix-serve ./build/index.js",
-    "typecheck": "tsc"
+    "start": "rm -rf ./build ./public/build && remix-serve ./build/index.js",
+    "typecheck": "tsc",
+    "clean": "rm -rf ./build ./public/build"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@prisma/client": "5.4.2",
     "@remix-run/css-bundle": "^2.1.0",
     "@remix-run/node": "^2.1.0",
     "@remix-run/react": "^2.1.0",
