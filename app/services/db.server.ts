@@ -10,6 +10,7 @@ type User = {
   name: string;
   email: string;
   username: string;
+  picture?: string;
 };
 export async function findOrCreateUser(user: User) {
   return await db.user.upsert({
@@ -21,6 +22,7 @@ export async function findOrCreateUser(user: User) {
       email: user.email,
       name: user.name,
       userName: user.username,
+      picture: user.picture,
     },
   });
 }
