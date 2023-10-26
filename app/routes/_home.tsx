@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLocation, useLoaderData } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
-import NavBar from "~/components/navbar";
+import NavBar from "~/components/Navbar";
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {
   let user = await authenticator.isAuthenticated(request, {

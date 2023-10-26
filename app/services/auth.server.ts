@@ -19,6 +19,7 @@ export let authenticator = new Authenticator<User>(sessionStorage);
 
 let secret = process.env.MAGIC_LINK_SECRET as string;
 
+let url = process.env.NODE_ENV==="development"? "http://localhost:3000" : "https://connectify.luki.my.id"
 function view(data: GitHubProfile | GoogleProfile) {
   console.log(JSON.stringify(data, null, 2));
 }
@@ -27,7 +28,7 @@ let googleStrategy = new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID as string,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    callbackURL: `http://localhost:3000/auth/google/callback`,
+    callbackURL: `${url}/auth/google/callback`,
   },
   async ({ profile }) => {
     const data: UserData = {
@@ -46,7 +47,7 @@ let gitHubStrategy = new GitHubStrategy(
   {
     clientID: process.env.GITHUB_CLIENT_ID as string,
     clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-    callbackURL: `http://localhost:3000/auth/github/callback`,
+    callbackURL: `${url}/auth/github/callback`,
   },
   async ({ profile }) => {
     const data: UserData = {
@@ -65,6 +66,8 @@ let emailLinkStrategy = new EmailLinkStrategy(
   { sendEmail, secret, callbackURL: "/magic" },
   async ({
     email,
+    form,
+    magicLinkVerify,
   }: {
     email: string;
     form: FormData;

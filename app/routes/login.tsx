@@ -66,7 +66,7 @@ export default function LoginPage() {
             <span className="mx-2 text-gray-400">or</span>
             <div className="flex-1 border-b border-gray-300"></div>
           </div>
-          <Form method="post">
+          <Form action="/login" method="post">
             {magicLinkSent ? (
               <p>
                 Successfully sent magic link{" "}
@@ -91,7 +91,6 @@ export default function LoginPage() {
                 </p>
                 <button
                   className="interactive-bg-primary font-bold py-3 w-full rounded focus:outline-none focus:shadow-outline mb-4"
-                  type="submit"
                 >
                   Continue
                 </button>

@@ -1,7 +1,6 @@
 import { renderToString } from "react-dom/server";
 import type { SendEmailFunction } from "remix-auth-email-link";
 import type { User } from "@prisma/client";
-import nodemailer from "nodemailer";
 
 type EmailOption = {
   emailAddress: string;
@@ -9,25 +8,18 @@ type EmailOption = {
   body: string;
 };
 
-export let sendMail = async (option: EmailOption) => {
-  const mailTransport = nodemailer.createTransport({
-    host: "smtp.zoho.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: "admin@luki.my.id",
-      pass: "BLxtdDiuXKwT",
+let sendMail = async (option: EmailOption) => {
+  await fetch("https://nice-gray-shark-hose.cyclic.app/send-email", {
+    body: JSON.stringify({
+      email: option.emailAddress,
+      subject: option.subject,
+      html: option.body,
+    }),
+    headers: {
+      "Content-Type": "application/json",
     },
+    method: "POST",
   });
-
-  const mailOptions = {
-    from: '"Connectify" <admin@luki.my.id>',
-    to: option.emailAddress,
-    subject: option.subject,
-    html: option.body,
-  };
-
-  await mailTransport.sendMail(mailOptions);
 };
 
 export let sendEmail: SendEmailFunction<User> = async (options) => {
@@ -44,6 +36,6 @@ export let sendEmail: SendEmailFunction<User> = async (options) => {
     subject,
     body,
   };
-  console.log(options.magicLink)
+  console.log(options.magicLink);
   await sendMail(option);
 };

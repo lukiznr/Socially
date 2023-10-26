@@ -7,7 +7,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Index() {
   return (
     <>
-      <div className="bg-[#1381D4]">
+      <div>
         <img src="/logo.svg" alt="Connectify Logo" />
       </div>
     </>
