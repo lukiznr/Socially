@@ -4,42 +4,57 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "prisma generate && remix build",
+    "build": "remix build",
     "dev": "remix dev --manual",
-    "start": "rm -rf ./build ./public/build && remix-serve ./build/index.js",
+    "start": "remix-serve ./build/index.js",
     "typecheck": "tsc",
-    "clean": "rm -rf ./build ./public/build"
+    "db:gen": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed",
+    "reveal": "remix reveal",
+    "clean": "rm -rf build public/build",
+    "prebuild": "prisma db push",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "@prisma/client": "5.4.2",
+    "@prisma/client": "5.5.2",
     "@remix-run/css-bundle": "^2.1.0",
     "@remix-run/node": "^2.1.0",
     "@remix-run/react": "^2.1.0",
     "@remix-run/serve": "^2.1.0",
-    "isbot": "^3.6.8",
-    "nodemailer": "^6.9.6",
+    "isbot": "^3.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-auth": "^3.6.0",
-    "remix-auth-email-link": "^2.1.0",
     "remix-auth-github": "^1.6.0",
     "remix-auth-google": "^1.3.0",
+    "remix-auth-totp": "^1.2.0",
     "tailwind-material-colors": "^1.1.2",
-    "tailwindcss": "^3.3.3",
+    "tailwindcss": "^3.3.5",
     "unique-username-generator": "^1.2.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.1.0",
     "@remix-run/eslint-config": "^2.1.0",
+    "@remix-run/server-runtime": "^2.1.0",
+    "@types/node": "^20.8.10",
     "@types/nodemailer": "^6.4.13",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
-    "eslint": "^8.38.0",
-    "prisma": "^5.4.2",
-    "typescript": "^5.1.6"
+    "@types/react": "^18.2.33",
+    "@types/react-dom": "^18.2.14",
+    "eslint": "^8.52.0",
+    "prisma": "^5.5.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@remix-run/server-runtime": "^2.0.0"
   }
 }

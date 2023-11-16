@@ -1,28 +1,36 @@
 import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
-import { sessionStorage } from "~/services/session.server";
-import { AtSymbolIcon } from "@heroicons/react/24/solid";
+import { getSession, commitSession } from "~/services/session.server";
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {
-  authenticator.isAuthenticated(request, { successRedirect: "/profile" });
-  let session = await sessionStorage.getSession(request.headers.get("Cookie"));
-  return json({
-    magicLinkSent: session.has("auth:magiclink"),
-    magicLinkEmail: session.get("auth:email"),
+  await authenticator.isAuthenticated(request, {
+    successRedirect: "/profile",
+  });
+  const cookie = await getSession(request.headers.get("cookie"));
+  const authEmail = cookie.get("auth:email");
+  const authError = cookie.get(authenticator.sessionErrorKey);
+  return json({ authEmail, authError } as const, {
+    headers: {
+      "set-cookie": await commitSession(cookie),
+    },
   });
 };
 
 export let action = async ({ request }: ActionFunctionArgs) => {
-  await authenticator.authenticate("email-link", request, {
-    successRedirect: "/login",
-    failureRedirect: "/login",
+  const url = new URL(request.url);
+  const currentPath = url.pathname;
+
+  await authenticator.authenticate("TOTP", request, {
+    successRedirect: "/verify",
+    failureRedirect: currentPath,
   });
 };
 
 export default function LoginPage() {
-  let { magicLinkSent, magicLinkEmail } = useLoaderData<typeof loader>();
+  const { authEmail, authError } = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
 
   return (
     <>
@@ -66,37 +74,47 @@ export default function LoginPage() {
             <span className="mx-2 text-gray-400">or</span>
             <div className="flex-1 border-b border-gray-300"></div>
           </div>
-          <Form action="/login" method="post">
-            {magicLinkSent ? (
-              <p>
-                Successfully sent magic link{" "}
-                {magicLinkEmail ? `to ${magicLinkEmail}` : ""}
-              </p>
-            ) : (
-              <>
-                <label className="block text-sm font-bold mb-2" htmlFor="email">
-                  <AtSymbolIcon className="w-4 h-4 inline-block mr-2" />
-                  Enter your email
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="people@example.com"
-                  required
-                />
-                <p className="mb-2">
-                  We'll email you a magic code for a password-free registration.
-                </p>
-                <button
-                  className="interactive-bg-primary font-bold py-3 w-full rounded focus:outline-none focus:shadow-outline mb-4"
-                >
-                  Continue
-                </button>
-              </>
-            )}
+          {/* Email Form */}
+          <Form
+            method="POST"
+            autoComplete="off"
+            className="flex w-full flex-col gap-2"
+          >
+            <div className="flex flex-col">
+              <label htmlFor="email" className="sr-only">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                defaultValue={authEmail ? authEmail : ""}
+                placeholder="name@example.com"
+                className="h-11 rounded-md border-2 border-primary bg-transparent px-4 text-base font-semibold placeholder:font-normal placeholder:text-gray-400"
+                required
+              />
+            </div>
+            <p className="mb-2">
+              We'll email you a magic code for a password-free registration.
+            </p>
+            <button
+              type="submit"
+              className="clickable flex h-10 items-center justify-center rounded-md bg-primary disabled:bg-gray-700"
+              disabled={navigation.state !== "idle" ? true : false}
+            >
+              <span className="text-sm font-semibold">Continue with Email</span>
+            </button>
           </Form>
+
+          {!authEmail && authError && (
+            <span className="font-semibold text-red-400">
+              {authError.message}
+            </span>
+          )}
+
+          <p className="text-center text-xs leading-relaxed">
+            By continuing, you agree to our{" "}
+            <span className="clickable underline">Terms of Service</span>
+          </p>
         </div>
       </div>
     </>

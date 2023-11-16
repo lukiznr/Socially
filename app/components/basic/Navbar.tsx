@@ -5,58 +5,58 @@ import {
   PlusIcon,
   UserIcon,
 } from "@heroicons/react/24/solid";
-import { Link } from "@remix-run/react";
+import { NavLink } from "@remix-run/react";
 import type { FC } from "react";
 
 type navbar = {
-  location: string;
   avatar?: string;
 };
 
-const NavBar: FC<navbar> = ({ location, avatar }) => {
+const NavBar: FC<navbar> = ({ avatar }) => {
+  const baseClass = "flex flex-col items-center";
   return (
     <div className="fixed bottom-0 left-0 w-full bg-surface-variant flex justify-around py-2">
-      <Link
+      <NavLink
         to="/"
-        className={`flex flex-col items-center ${
-          location === "/" ? "text-primary" : "text-white"
-        }`}
+        className={({ isActive }) =>
+          isActive ? `${baseClass} text-primary` : `${baseClass} text-white`
+        }
       >
         <HomeIcon className="w-6 h-6" />
         <span className="text-xs">Home</span>
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
         to="/chat"
-        className={`flex flex-col items-center ${
-          location === "/chat" ? "text-primary" : "text-white"
-        }`}
+        className={({ isActive }) =>
+          isActive ? `${baseClass} text-primary` : `${baseClass} text-white`
+        }
       >
         <ChatBubbleOvalLeftEllipsisIcon className="w-6 h-6" />
         <span className="text-xs">Chat</span>
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
         to="/new"
-        className={`flex flex-col items-center ${
-          location === "/new" ? "text-primary" : "text-white"
-        }`}
+        className={({ isActive }) =>
+          isActive ? `${baseClass} text-primary` : `${baseClass} text-white`
+        }
       >
         <PlusIcon className="w-6 h-6" />
         <span className="text-xs">New</span>
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
         to="/notif"
-        className={`flex flex-col items-center ${
-          location === "/notif" ? "text-primary" : "text-white"
-        }`}
+        className={({ isActive }) =>
+          isActive ? `${baseClass} text-primary` : `${baseClass} text-white`
+        }
       >
         <BellIcon className="w-6 h-6" />
         <span className="text-xs">Notification</span>
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
         to="/profile"
-        className={`flex flex-col items-center ${
-          location === "/profile" ? "text-primary" : "text-white"
-        }`}
+        className={({ isActive }) =>
+          isActive ? `${baseClass} text-primary` : `${baseClass} text-white`
+        }
       >
         {avatar ? (
           <img className="w-6 h-6 rounded-full" src={avatar} />
@@ -64,7 +64,7 @@ const NavBar: FC<navbar> = ({ location, avatar }) => {
           <UserIcon className="w-6 h-6" />
         )}
         <span className="text-xs">Profile</span>
-      </Link>
+      </NavLink>
     </div>
   );
 };
