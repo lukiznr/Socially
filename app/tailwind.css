@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  --background-colour: white;
+
+  background-color: var(--background-colour);
+}
+
+html.dark {
+  --background-colour: black;
+}
+
+.dark-component {
+  color: white;
+}
+
+.light-component {
+  color: black;
+}
+
 .circular-loader {
   animation: rotate 2s linear infinite;
 }

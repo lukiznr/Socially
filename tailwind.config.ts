@@ -1,15 +1,13 @@
-import { withMaterialColors } from "tailwind-material-colors";
-export default withMaterialColors(
-  {
-    content: ["./app/**/*.{js,jsx,ts,tsx}"],
-    darkMode: "class",
-    theme: {
-      extend: {},
-    },
-    plugins: [],
+import type { Config } from "tailwindcss";
+
+export default {
+  content: ["./app/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {},
   },
-  {
-    primary: "#1381D4",
-  },
-  { extend: true }
-);
+  plugins: [
+    require("@catppuccin/tailwindcss")({
+      defaultFlavour: "mocha",
+    }),
+  ],
+} satisfies Config;

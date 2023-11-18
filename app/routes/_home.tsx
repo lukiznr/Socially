@@ -1,8 +1,9 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Outlet, useLocation, useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
 import NavBar from "~/components/basic/Navbar";
+import { Theme, Themed, useTheme } from "~/utils/theme-provider";
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {
   let user = await authenticator.isAuthenticated(request, {
@@ -13,15 +14,27 @@ export let loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function HomeLayout() {
   const data = useLoaderData<typeof loader>();
-  const location = useLocation();
   let avatar: string | undefined;
   if (data !== null) {
     avatar = data;
   }
+
+  const [, setTheme] = useTheme();
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT,
+    );
+  };
   return (
     <>
       <Outlet />
-      <NavBar location={location.pathname} avatar={avatar} />
+      <button onClick={toggleTheme}>Toggle</button>
+      <Themed
+        dark={<h1 className="dark-component">I'm only seen in dark mode</h1>}
+        light={<h1 className="light-component">I'm only seen in light mode</h1>}
+      />
+      <NavBar avatar={avatar} />
     </>
   );
 }

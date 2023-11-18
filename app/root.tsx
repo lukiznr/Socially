@@ -1,5 +1,6 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, LinksFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -10,25 +11,44 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   useRouteError,
+  useLoaderData
 } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import { useEffect } from "react";
-import styles from "./tailwind.css";
-import useMobileConsole from "./utils/mobileConsole";
+import styles from "~/tailwind.css";
+import useMobileConsole from "~/utils/mobileConsole";
+import {
+  ThemeBody,
+  ThemeHead,
+  ThemeProvider,
+  useTheme,
+} from "~/utils/theme-provider";
+import { getThemeSession } from "~/utils/theme.server";
+
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: styles },
 ];
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const themeSession = await getThemeSession(request);
+
+  return json({
+    theme: themeSession.getTheme(),
+  });
+};
+
 export function Document({
   children,
   title,
 }: PropsWithChildren<{ title?: string }>) {
+  const data = useLoaderData<typeof loader>();
+  const [theme] = useTheme();
   useEffect(() => {
     useMobileConsole();
   }, []);
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={theme ?? ""}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -53,12 +73,14 @@ export function Document({
         <link rel="manifest" href="/site.webmanifest" />
         <Meta />
         <Links />
+        <ThemeHead ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className="bg-background">
+      <body className="bg-base">
         {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <ThemeBody ssrTheme={Boolean(data.theme)} />
         <div id="script"></div>
       </body>
     </html>
@@ -66,10 +88,13 @@ export function Document({
 }
 
 export default function App() {
+const data = useLoaderData<typeof loader>();
   return (
+  <ThemeProvider specifiedTheme={data.theme}>
     <Document>
       <Outlet />
     </Document>
+    </ThemeProvider>
   );
 }
 
