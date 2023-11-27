@@ -11,7 +11,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   useRouteError,
-  useLoaderData
+  useLoaderData,
 } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import { useEffect } from "react";
@@ -48,7 +48,7 @@ export function Document({
     useMobileConsole();
   }, []);
   return (
-    <html lang="en" className={theme ?? ""}>
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -75,7 +75,7 @@ export function Document({
         <Links />
         <ThemeHead ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className="bg-base">
+      <body className={`${theme === "light" ? "latte" : "mocha"} bg-base text-text`}>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -88,43 +88,47 @@ export function Document({
 }
 
 export default function App() {
-const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
   return (
-  <ThemeProvider specifiedTheme={data.theme}>
-    <Document>
-      <Outlet />
-    </Document>
+    <ThemeProvider specifiedTheme={data.theme}>
+      <Document>
+        <Outlet />
+      </Document>
     </ThemeProvider>
   );
 }
 
 export function ErrorBoundary() {
   const error = useRouteError();
-
+  const data = useLoaderData<typeof loader>();
   if (isRouteErrorResponse(error)) {
     return (
-      <Document title={`${error.status} ${error.statusText}`}>
-        <div className="min-h-screen w-screen flex justify-center items-center">
-          <div className="p-3 rounded-lg bg-surface-variant bg-opacity-20">
-            <h1 className="text-4xl font-bold text-center text-error mb-5">
-              {error.status} {error.statusText}
-            </h1>
-            <Link to="/" className="font-bold text-primary">
-              Go Home
-            </Link>
+      <ThemeProvider specifiedTheme={data.theme}>
+        <Document title={`${error.status} ${error.statusText}`}>
+          <div className="min-h-screen w-screen flex justify-center items-center">
+            <div className="p-3 rounded-lg bg-surface-variant bg-opacity-20">
+              <h1 className="text-4xl font-bold text-center text-error mb-5">
+                {error.status} {error.statusText}
+              </h1>
+              <Link to="/" className="font-bold text-primary">
+                Go Home
+              </Link>
+            </div>
           </div>
-        </div>
-      </Document>
+        </Document>
+      </ThemeProvider>
     );
   }
 
   const errorMessage = error instanceof Error ? error.message : "Unknown error";
   return (
-    <Document title="Uh-oh!">
-      <div className="overflow-scroll">
-        <h1>App Error</h1>
-        <pre>{errorMessage}</pre>
-      </div>
-    </Document>
+    <ThemeProvider specifiedTheme={data.theme}>
+      <Document title="Uh-oh!">
+        <div className="overflow-scroll">
+          <h1>App Error</h1>
+          <pre>{errorMessage}</pre>
+        </div>
+      </Document>
+    </ThemeProvider>
   );
 }

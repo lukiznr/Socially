@@ -26,15 +26,17 @@ export default function Index() {
       <Suspense fallback={<Loader />}>
         <Await resolve={post}>
           {(post) =>
-            post.map((data) => (
-              <UserPost
-                id={data.id}
-                userId={data.userId}
-                createdAt={data.createdAt}
-                content={data.content}
-                picture={data.picture}
-                user={userData}
-              />
+            post.map((data, index) => (
+              <div key={index}>
+                <UserPost
+                  id={data.id}
+                  userId={data.userId}
+                  createdAt={data.createdAt}
+                  content={data.content}
+                  picture={data.picture}
+                  user={userData}
+                />
+              </div>
             ))
           }
         </Await>
