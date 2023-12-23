@@ -37,7 +37,7 @@ model Post {
 }
 
 model Comment {
-  id        String    @id @unique @default(cuid())
+  id        String    @id @unique @default(cuid()) 
   text      String
   createdAt DateTime? @default(now())
   postsId   String

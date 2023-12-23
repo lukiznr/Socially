@@ -1,5 +1,5 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LoaderFunctionArgs, LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Link,
@@ -10,8 +10,8 @@ import {
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
-  useRouteError,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import { useEffect } from "react";
@@ -48,7 +48,7 @@ export function Document({
     useMobileConsole();
   }, []);
   return (
-    <html lang="en">
+    <html lang="en" className={theme !== "dark" ? "light" : "dark"}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -75,7 +75,18 @@ export function Document({
         <Links />
         <ThemeHead ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className={`${theme === "light" ? "latte" : "mocha"} bg-base text-text`}>
+      <body className="bg-base text-text">
+        {process.env.NODE_ENV === "development" && (
+          <>
+          <Link to="/">Home</Link>
+          <Link
+            to="/test"
+            className="fixed top-0 bg-muted p-2 rounded text-overlay"
+          >
+            Testing
+          </Link>
+          </>
+        )}
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -105,12 +116,12 @@ export function ErrorBoundary() {
     return (
       <ThemeProvider specifiedTheme={data.theme}>
         <Document title={`${error.status} ${error.statusText}`}>
-          <div className="min-h-screen w-screen flex justify-center items-center">
-            <div className="p-3 rounded-lg bg-surface-variant bg-opacity-20">
-              <h1 className="text-4xl font-bold text-center text-error mb-5">
+          <div className="flex min-h-screen w-screen items-center justify-center">
+            <div className="bg-surface-variant rounded-lg bg-opacity-20 p-3">
+              <h1 className="text-error mb-5 text-center text-4xl font-bold">
                 {error.status} {error.statusText}
               </h1>
-              <Link to="/" className="font-bold text-primary">
+              <Link to="/" className="text-primary font-bold">
                 Go Home
               </Link>
             </div>

@@ -272,11 +272,11 @@ function isTheme(value: unknown): value is Theme {
 }
 
 export {
-  isTheme,
   Theme,
-  Themed,
   ThemeBody,
   ThemeHead,
   ThemeProvider,
+  Themed,
+  isTheme,
   useTheme,
 };

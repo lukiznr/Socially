@@ -12,4 +12,3 @@ export type UserPostType = {
   content: string | null;
   user: User;
 };
-

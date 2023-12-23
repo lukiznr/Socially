@@ -52,9 +52,6 @@ dependencies:
     version: 1.2.0
 
 devDependencies:
-  '@catppuccin/tailwindcss':
-    specifier: ^0.1.6
-    version: 0.1.6(tailwindcss@3.3.5)
   '@remix-run/dev':
     specifier: ^2.3.0
     version: 2.3.0(@remix-run/serve@2.3.0)(@types/node@20.9.1)(ts-node@10.9.1)(typescript@5.2.2)
@@ -511,14 +508,6 @@ packages:
       '@babel/helper-string-parser': 7.22.5
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
-    dev: true
-
-  /@catppuccin/tailwindcss@0.1.6(tailwindcss@3.3.5):
-    resolution: {integrity: sha512-V+Y0AwZ5SSyvOVAcDl7Ng30xy+m82OKnEJ+9+kcZZ7lRyXuZrAb2GScdq9XR3v+ggt8qiZ/G4TvaC9cJ88AAXA==}
-    peerDependencies:
-      tailwindcss: '>=3.0.0'
-    dependencies:
-      tailwindcss: 3.3.5(ts-node@10.9.1)
     dev: true
 
   /@cspotcode/source-map-support@0.8.1:

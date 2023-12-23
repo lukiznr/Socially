@@ -1,7 +1,7 @@
 export default function Loader() {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
-      <svg className="circular-loader relative w-[100px] h-[100px]">
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <svg className="circular-loader relative h-[100px] w-[100px]">
         <circle
           className="path stroke-primary"
           cx="50"

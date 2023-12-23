@@ -8,7 +8,7 @@ type CardFunction = {
 const Card: FC<CardFunction> = ({ bg, children }) => {
   return (
     <div
-      className={`w-full md:w-32 h-36 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center ${
+      className={`flex h-36 w-full items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-700 md:w-32 ${
         bg ? bg : "bg-surface-variant"
       }`}
     >

@@ -6,4 +6,4 @@ export async function loader({ request }: LoaderFunctionArgs) {
     successRedirect: "/profile",
     failureRedirect: "/login",
   });
-};
+}

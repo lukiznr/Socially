@@ -1,15 +1,14 @@
-import { Authenticator } from "remix-auth";
-import { sessionStorage } from "./session.server";
-import { GoogleStrategy } from "remix-auth-google";
-import { GitHubStrategy } from "remix-auth-github";
-import { TOTPStrategy } from "remix-auth-totp";
-import { findOrCreateUser } from "./db.server";
-import { generateFromEmail } from "unique-username-generator";
-import { sendAuthEmail } from "./email.server";
-import { db } from "./db.server";
 import type { User } from "@prisma/client";
+import { Authenticator } from "remix-auth";
 import type { GitHubProfile } from "remix-auth-github";
+import { GitHubStrategy } from "remix-auth-github";
 import type { GoogleProfile } from "remix-auth-google";
+import { GoogleStrategy } from "remix-auth-google";
+import { TOTPStrategy } from "remix-auth-totp";
+import { generateFromEmail } from "unique-username-generator";
+import { db, findOrCreateUser } from "./db.server";
+import { sendAuthEmail } from "./email.server";
+import { sessionStorage } from "./session.server";
 
 type UserData = {
   name: string;
@@ -48,8 +47,8 @@ authenticator.use(
       view(profile);
       const user = await findOrCreateUser(data);
       return user;
-    }
-  )
+    },
+  ),
 );
 
 authenticator.use(
@@ -69,8 +68,8 @@ authenticator.use(
       view(profile);
       const user = await findOrCreateUser(data);
       return user;
-    }
-  )
+    },
+  ),
 );
 
 authenticator.use(
@@ -107,6 +106,6 @@ authenticator.use(
         user = await db.user.create({ data: userData });
       }
       return user;
-    }
-  )
+    },
+  ),
 );

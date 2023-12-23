@@ -1,8 +1,8 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
+import NavBar from "~/components/Navbar";
 import { authenticator } from "~/services/auth.server";
-import NavBar from "~/components/basic/Navbar";
 import { Theme, Themed, useTheme } from "~/utils/theme-provider";
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {

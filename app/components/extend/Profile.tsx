@@ -1,6 +1,6 @@
-import React from "react";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { Button, ButtonGroup } from "~/components/basic/Button"
+import React from "react";
+import { Button, ButtonGroup } from "~/components/basic/Button";
 type UserProfileProps = {
   name: string;
   userName: string;
@@ -19,7 +19,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   let profileClassName =
     "w-24 h-24 rounded-full mx-auto mb-4 border-4 border-primary";
   return (
-    <div className="container mt-4 p-4 bg-surface-variant rounded-lg shadow-md flex">
+    <div className="bg-surface-variant container mt-4 flex rounded-lg p-4 shadow-md">
       {picture ? (
         <img src={picture} alt={name} className={profileClassName} />
       ) : (
@@ -27,8 +27,8 @@ const UserProfile: React.FC<UserProfileProps> = ({
           <UserIcon className={profileClassName} />
         </div>
       )}
-      <div className="flex-1 ml-4">
-        <h2 className="text-xl font-bold mb-1">{name}</h2>
+      <div className="ml-4 flex-1">
+        <h2 className="mb-1 text-xl font-bold">{name}</h2>
         <p className="mb-1">@{userName}</p>
         {bio && <p className="">{bio}</p>}
         <ButtonGroup>

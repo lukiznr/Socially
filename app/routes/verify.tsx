@@ -1,10 +1,10 @@
 import type { DataFunctionArgs } from "@remix-run/node";
 
-import { Form, useLoaderData } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
+import { Form, useLoaderData } from "@remix-run/react";
 
 import { authenticator } from "~/services/auth.server";
-import { getSession, commitSession } from "~/services/session.server";
+import { commitSession, getSession } from "~/services/session.server";
 
 export async function loader({ request }: DataFunctionArgs) {
   await authenticator.isAuthenticated(request, {
@@ -72,7 +72,7 @@ export default function Verify() {
               </div>
               <button
                 type="submit"
-                className="clickable flex h-10 items-center justify-center rounded-md bg-primary"
+                className="clickable bg-primary flex h-10 items-center justify-center rounded-md"
               >
                 <span className="text-sm font-semibold">Continue</span>
               </button>
@@ -85,7 +85,7 @@ export default function Verify() {
             >
               <button
                 type="submit"
-                className="clickable flex h-10 items-center justify-center rounded-md bg-tertiary"
+                className="clickable bg-tertiary flex h-10 items-center justify-center rounded-md"
               >
                 <span className="text-sm font-semibold">Request New Code</span>
               </button>

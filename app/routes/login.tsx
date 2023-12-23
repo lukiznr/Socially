@@ -1,8 +1,8 @@
-import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
-import { getSession, commitSession } from "~/services/session.server";
+import { commitSession, getSession } from "~/services/session.server";
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticator.isAuthenticated(request, {
@@ -37,9 +37,9 @@ export default function LoginPage() {
       <div className="bg-[#1381D4]">
         <img src="/logo.svg" alt="Connectify Logo" />
       </div>
-      <div className="flex justify-center items-center h-[75vh]">
-        <div className="bg-surface-variant shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <h2 className="text-3xl font-bold mb-3 text-center">
+      <div className="flex h-[75vh] items-center justify-center">
+        <div className="bg-surface-variant mb-4 rounded px-8 pb-8 pt-6 shadow-md">
+          <h2 className="mb-3 text-center text-3xl font-bold">
             Log in or
             <br />
             Create an account.
@@ -47,11 +47,11 @@ export default function LoginPage() {
           <p className="mb-4 text-lg">
             Quickly get started by using your existing accounts.
           </p>
-          <div className="flex flex-col gap-3 mb-2">
+          <div className="mb-2 flex flex-col gap-3">
             <Form action="/auth/google" method="post">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded w-full flex items-center justify-center">
+              <button className="flex w-full items-center justify-center rounded bg-blue-500 py-3 font-bold text-white hover:bg-blue-600">
                 <img
-                  className="bg-white rounded-full p-0.5"
+                  className="rounded-full bg-white p-0.5"
                   src="/Google_Logo.svg"
                   alt="Google Logo"
                 />
@@ -59,9 +59,9 @@ export default function LoginPage() {
               </button>
             </Form>
             <Form action="/auth/github" method="post">
-              <button className="bg-black hover:bg-gray-800 text-white font-bold py-3 rounded w-full flex items-center justify-center">
+              <button className="flex w-full items-center justify-center rounded bg-black py-3 font-bold text-white hover:bg-gray-800">
                 <img
-                  className="bg-white rounded-full p-0.5"
+                  className="rounded-full bg-white p-0.5"
                   src="/Github_Logo.svg"
                   alt="Github Logo"
                 />
@@ -89,7 +89,7 @@ export default function LoginPage() {
                 name="email"
                 defaultValue={authEmail ? authEmail : ""}
                 placeholder="name@example.com"
-                className="h-11 rounded-md border-2 border-primary bg-transparent px-4 text-base font-semibold placeholder:font-normal placeholder:text-gray-400"
+                className="border-primary h-11 rounded-md border-2 bg-transparent px-4 text-base font-semibold placeholder:font-normal placeholder:text-gray-400"
                 required
               />
             </div>
@@ -98,7 +98,7 @@ export default function LoginPage() {
             </p>
             <button
               type="submit"
-              className="clickable flex h-10 items-center justify-center rounded-md bg-primary disabled:bg-gray-700"
+              className="clickable bg-primary flex h-10 items-center justify-center rounded-md disabled:bg-gray-700"
               disabled={navigation.state !== "idle" ? true : false}
             >
               <span className="text-sm font-semibold">Continue with Email</span>

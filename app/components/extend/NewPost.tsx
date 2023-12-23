@@ -5,21 +5,21 @@ export default function NewPost() {
       <Form
         encType="multipart/form-data"
         method="post"
-        className="max-w-md mx-auto"
+        className="mx-auto max-w-md"
       >
         <input
-          className="border p-2 w-full mb-4"
+          className="mb-4 w-full border p-2"
           type="file"
           name="files[]"
           placeholder="Picture URL"
           multiple={true}
         />
         <textarea
-          className="border p-2 w-full mb-4"
+          className="mb-4 w-full border p-2"
           name="content"
           placeholder="Content"
         ></textarea>
-        <label className="flex items-center mb-4">
+        <label className="mb-4 flex items-center">
           <input
             className="mr-2"
             type="checkbox"
@@ -29,7 +29,7 @@ export default function NewPost() {
           <span>Use Markdown</span>
         </label>
         <button
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           type="submit"
         >
           Submit

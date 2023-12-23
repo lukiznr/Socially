@@ -12,10 +12,10 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
-    "reveal": "remix reveal",
     "clean": "rm -rf build public/build",
     "prebuild": "prisma db push",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "format": "prettier -w ./app/"
   },
   "prisma": {
     "seed": "ts-node --transpile-only prisma/seed.ts"
@@ -38,7 +38,6 @@
     "unique-username-generator": "^1.2.0"
   },
   "devDependencies": {
-    "@catppuccin/tailwindcss": "^0.1.6",
     "@remix-run/dev": "^2.3.0",
     "@remix-run/eslint-config": "^2.3.0",
     "@remix-run/server-runtime": "^2.3.0",

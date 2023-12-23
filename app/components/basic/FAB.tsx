@@ -9,14 +9,14 @@ type FABType = {
 const FAB: FC<FABType> = ({ variant, children, icon }) => {
   if (variant === "extended") {
     return (
-      <button className="fabs relative flex flex-row items-center justify-center h-14 gap-x-3 p-4 pr-8 rounded-2xl overflow-hidden shadow-lg text-sm tracking-[.00714em] font-medium bg-primary">
+      <button className="fabs bg-primary relative flex h-14 flex-row items-center justify-center gap-x-3 overflow-hidden rounded-2xl p-4 pr-8 text-sm font-medium tracking-[.00714em] shadow-lg">
         <span>{icon}</span>
         {children}
       </button>
     );
   } else {
     return (
-      <button className="fabs relative flex flex-row items-center justify-center w-14 h-14 gap-x-2 p-2 rounded-2xl overflow-hidden shadow-lg text-sm tracking-[.00714em] font-medium bg-primary">
+      <button className="fabs bg-primary relative flex h-14 w-14 flex-row items-center justify-center gap-x-2 overflow-hidden rounded-2xl p-2 text-sm font-medium tracking-[.00714em] shadow-lg">
         <span>{icon}</span>
       </button>
     );
