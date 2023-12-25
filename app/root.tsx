@@ -75,17 +75,16 @@ export function Document({
         <Links />
         <ThemeHead ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className="bg-base text-text">
+      <body className="bg-white dark:bg-black text-black dark:text-white">
         {process.env.NODE_ENV === "development" && (
-          <>
+          <div className="fixed top-0 bg-pink-500 p-2 rounded text-pink-200">
           <Link to="/">Home</Link>
           <Link
             to="/test"
-            className="fixed top-0 bg-muted p-2 rounded text-overlay"
           >
             Testing
           </Link>
-          </>
+          </div>
         )}
         {children}
         <ScrollRestoration />

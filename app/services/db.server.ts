@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { singleton } from "./singleton.server";
-
+//import type { d } from "@prisma/client"
 const db = singleton("prisma", () => new PrismaClient());
 db.$connect();
 
@@ -20,6 +20,16 @@ type Comment = {
   parentId?: string;
 };
 
+type Picture = {
+  url: string;
+};
+type Post = {
+  userId: string;
+  markdown?: boolean;
+  draft?: boolean;
+  content?: string;
+  picture?: Picture[];
+};
 // User
 export async function findOrCreateUser(user: User) {
   return await db.user.upsert({
@@ -41,11 +51,30 @@ export async function getUserById(id: string) {
 }
 
 // Post
+export async function createPost(data: Post) {
+  if (!data.content || !data.picture) {
+    throw "Minimal harus ada 1";
+  }
+  const picture = data.picture;
+  return await db.post.create({
+    data: {
+      userId: data.userId,
+      content: data.content,
+      markdown: data.markdown,
+      draft: data.draft,
+      Picture: {
+        create: [...picture],
+      },
+    },
+    include: { Picture: true },
+  });
+}
 export async function getAllPost() {
   return await db.post.findMany({
     include: {
       author: { select: { name: true, userName: true, picture: true } },
       _count: { select: { Comment: true, Like: true } },
+      Picture: true,
     },
   });
 }

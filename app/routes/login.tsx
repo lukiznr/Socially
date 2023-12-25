@@ -36,9 +36,16 @@ export default function LoginPage() {
     <>
       <div className="bg-[#1381D4]">
         <img src="/logo.svg" alt="Connectify Logo" />
+        <blockquote className="text-2xl font-semibold italic text-center text-slate-900 dark:text-white">
+          Social networks aren't about
+          <span className="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500 relative inline-block mx-2">
+            <span className="relative text-white">Web sites.</span>
+          </span>
+          they're about experiences.
+        </blockquote>
       </div>
       <div className="flex h-[75vh] items-center justify-center">
-        <div className="bg-surface-variant mb-4 rounded px-8 pb-8 pt-6 shadow-md">
+        <div className="bg-gray-100 dark:bg-gray-900 mb-4 rounded px-8 pb-8 pt-6 shadow-md">
           <h2 className="mb-3 text-center text-3xl font-bold">
             Log in or
             <br />

@@ -3,12 +3,14 @@ type User = {
   userName: string;
   picture: string | null;
 };
-
+type Picture = {
+  url: string;
+};
 export type UserPostType = {
   id: string;
   userId: string;
   createdAt: string;
-  picture: string | null;
+  Picture: Picture[] | null;
   content: string | null;
   user: User;
 };

@@ -5,7 +5,7 @@ export default function NewPost() {
       <Form
         encType="multipart/form-data"
         method="post"
-        className="mx-auto max-w-md"
+        className="mx-auto max-w-md bg-gray-100 dark:bg-gray-900 rounded my-2"
       >
         <input
           className="mb-4 w-full border p-2"

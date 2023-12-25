@@ -27,17 +27,25 @@ model Post {
   id        String    @id @unique @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  picture   String?
+  draft     Boolean   @default(false)
   content   String?
   markdown  Boolean   @default(false)
   userId    String
+  Picture   Picture[]
   Comment   Comment[]
   Like      Like[]
   author    User      @relation(fields: [userId], references: [id])
 }
 
+model Picture {
+  id      String @id @default(cuid())
+  postsId String
+  post    Post   @relation(fields: [postsId], references: [id])
+  url     String
+}
+
 model Comment {
-  id        String    @id @unique @default(cuid()) 
+  id        String    @id @unique @default(cuid())
   text      String
   createdAt DateTime? @default(now())
   postsId   String

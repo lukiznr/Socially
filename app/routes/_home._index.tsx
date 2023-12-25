@@ -2,8 +2,8 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import { Await, useFetcher, useLoaderData } from "@remix-run/react";
 import { Suspense, useEffect } from "react";
-import Loader from "~/components/basic/Loader";
-import { UserPost } from "~/components/extend/UserPost";
+import Spinner from "~/components/spinner";
+import { UserPost } from "~/components/UserPost";
 import { authenticator } from "~/services/auth.server";
 import { getAllPost } from "~/services/db.server";
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -22,7 +22,7 @@ export default function Index() {
   const userData = { name: "luki", userName: "luki", picture: "test" };
   return (
     <>
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Spinner />}>
         <Await resolve={post}>
           {(post) =>
             post.map((data, index) => (
@@ -32,7 +32,7 @@ export default function Index() {
                   userId={data.userId}
                   createdAt={data.createdAt}
                   content={data.content}
-                  picture={data.picture}
+                  Picture={data.Picture}
                   user={userData}
                 />
               </div>

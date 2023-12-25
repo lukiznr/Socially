@@ -1,6 +1,6 @@
 import { UserIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { Button, ButtonGroup } from "~/components/basic/Button";
+import Button from "./button";
 type UserProfileProps = {
   name: string;
   userName: string;
@@ -31,10 +31,10 @@ const UserProfile: React.FC<UserProfileProps> = ({
         <h2 className="mb-1 text-xl font-bold">{name}</h2>
         <p className="mb-1">@{userName}</p>
         {bio && <p className="">{bio}</p>}
-        <ButtonGroup>
+        <div>
           <Button>Edit Profile</Button>
           <Button>Logout</Button>
-        </ButtonGroup>
+        </div>
       </div>
     </div>
   );
