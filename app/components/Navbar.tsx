@@ -15,11 +15,11 @@ type navbar = {
 const NavBar: FC<navbar> = ({ avatar }) => {
   const baseClass = "flex flex-col items-center";
   return (
-    <div className="bg-black/50 fixed bottom-0 left-0 flex w-full justify-around py-2">
+    <div className="bg-surface-100 dark:bg-surface-900 fixed bottom-0 left-0 flex w-full justify-around py-2">
       <NavLink
         to="/"
         className={({ isActive }) =>
-          isActive ? `${baseClass} text-blue-500` : `${baseClass} text-white`
+          isActive ? `${baseClass} text-primary-500` : `${baseClass} text-surface-950 dark:text-surface-50`
         }
       >
         <HomeIcon className="h-6 w-6" />
@@ -28,7 +28,7 @@ const NavBar: FC<navbar> = ({ avatar }) => {
       <NavLink
         to="/chat"
         className={({ isActive }) =>
-          isActive ? `${baseClass} text-blue-500` : `${baseClass} text-white`
+          isActive ? `${baseClass} text-primary-500` : `${baseClass} text-surface-950 dark:text-surface-50`
         }
       >
         <ChatBubbleOvalLeftEllipsisIcon className="h-6 w-6" />
@@ -37,7 +37,7 @@ const NavBar: FC<navbar> = ({ avatar }) => {
       <NavLink
         to="/new"
         className={({ isActive }) =>
-          isActive ? `${baseClass} text-blue-500` : `${baseClass} text-white`
+          isActive ? `${baseClass} text-primary-500` : `${baseClass} text-surface-950 dark:text-surface-50`
         }
       >
         <PlusIcon className="h-6 w-6" />
@@ -46,7 +46,7 @@ const NavBar: FC<navbar> = ({ avatar }) => {
       <NavLink
         to="/notif"
         className={({ isActive }) =>
-          isActive ? `${baseClass} text-blue-500` : `${baseClass} text-white`
+          isActive ? `${baseClass} text-primary-500` : `${baseClass} text-surface-950 dark:text-surface-50`
         }
       >
         <BellIcon className="h-6 w-6" />
@@ -55,7 +55,7 @@ const NavBar: FC<navbar> = ({ avatar }) => {
       <NavLink
         to="/profile"
         className={({ isActive }) =>
-          isActive ? `${baseClass} text-blue-500` : `${baseClass} text-white`
+          isActive ? `${baseClass} text-primary-500` : `${baseClass} text-surface-950 dark:text-surface-50`
         }
       >
         {avatar ? (

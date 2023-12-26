@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { defer } from "@remix-run/node";
-import { Await, useFetcher, useLoaderData } from "@remix-run/react";
-import { Suspense, useEffect } from "react";
+import { Await, useLoaderData } from "@remix-run/react";
+import { Suspense } from "react";
 import Spinner from "~/components/spinner";
 import { UserPost } from "~/components/UserPost";
 import { authenticator } from "~/services/auth.server";
@@ -14,12 +14,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Index() {
   const { post } = useLoaderData<typeof loader>();
 
-  const fetch = useFetcher();
-  useEffect(() => {
-    fetch.load("/api");
-  }, []);
-
-  const userData = { name: "luki", userName: "luki", picture: "test" };
   return (
     <>
       <Suspense fallback={<Spinner />}>
@@ -33,7 +27,7 @@ export default function Index() {
                   createdAt={data.createdAt}
                   content={data.content}
                   Picture={data.Picture}
-                  user={userData}
+                  author={data.author}
                 />
               </div>
             ))

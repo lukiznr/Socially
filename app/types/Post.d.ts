@@ -12,5 +12,5 @@ export type UserPostType = {
   createdAt: string;
   Picture: Picture[] | null;
   content: string | null;
-  user: User;
+  author: User;
 };

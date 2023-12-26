@@ -10,7 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: FC<ButtonProps> = ({ children, loading, ...props }) => {
   const baseClass: string =
-    "group py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border bg-blue-500 text-white";
+    "py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border bg-blue-500 text-white";
 
   return (
     <button {...props} className={clsx(baseClass)}>
@@ -18,6 +18,7 @@ const Button: FC<ButtonProps> = ({ children, loading, ...props }) => {
     </button>
   );
 };
+
 
 export const TestButton = () => {
   return (
