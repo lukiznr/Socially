@@ -2,8 +2,7 @@ import { singleton } from "./singleton.server";
 import { PrismaClient } from '@prisma/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
-const db = new PrismaClient()
-//const db = singleton("prisma", () => new PrismaClient());
+const db = new PrismaClient().$extends(withAccelerate())
 db.$connect();
 
 export { db };
@@ -78,6 +77,7 @@ export async function getAllPost() {
       _count: { select: { Comment: true, Like: true } },
       Picture: true,
     },
+    cacheStrategy: { ttl: 60 }
   });
 }
 export async function getPostById(id: string) {

@@ -14,7 +14,7 @@
     "db:seed": "prisma db seed",
     "clean": "rm -rf build public/build",
     "prebuild": "prisma db push",
-    "postinstall": "prisma db push && prisma generate",
+    "postinstall": "prisma generate --no-engine",
     "format": "prettier -w ./app/"
   },
   "prisma": {
@@ -23,12 +23,12 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "5.7.1",
+    "@prisma/extension-accelerate": "^0.6.2",
     "@remix-run/css-bundle": "^2.3.0",
     "@remix-run/node": "^2.3.0",
     "@remix-run/react": "^2.3.0",
     "@remix-run/serve": "^2.3.0",
     "@supabase/supabase-js": "^2.39.1",
-    "ably": "^1.2.48",
     "cloudinary": "^1.41.1",
     "clsx": "^2.0.0",
     "isbot": "^3.7.1",
@@ -38,7 +38,8 @@
     "remix-auth-github": "^1.6.0",
     "remix-auth-google": "^2.0.0",
     "remix-auth-totp": "^2.0.0",
-    "unique-username-generator": "^1.2.0"
+    "unique-username-generator": "^1.2.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.0",
@@ -48,6 +49,7 @@
     "@types/node": "^20.9.1",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
+    "@types/uuid": "^9.0.7",
     "eslint": "^8.53.0",
     "prisma": "^5.7.1",
     "tailwindcss": "^3.3.5",
