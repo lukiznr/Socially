@@ -19,12 +19,13 @@ type UserData = {
 
 export let authenticator = new Authenticator<User>(sessionStorage);
 
+let hostname = process.env.HOSTNAME as string
 let secret = process.env.SECRET as string;
 
 let url =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://connectify.luki.my.id";
+    : hostname;
 
 function view(data: GitHubProfile | GoogleProfile) {
   console.log(JSON.stringify(data, null, 2));
