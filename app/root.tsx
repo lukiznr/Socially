@@ -47,7 +47,6 @@ export function Document({
   useEffect(() => {
     useMobileConsole();
   }, []);
-  
   return (
     <html lang="en" className={theme !== "dark" ? "light" : "dark"}>
       <head>
@@ -76,14 +75,14 @@ export function Document({
         <Links />
         <ThemeHead ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className="bg-surface-50 dark:bg-surface-950 text-surface-950 dark:text-surface-50">
+      <body className="bg-surface-50 dark:bg-surface-950 text-surface-950 dark:text-surface-50 overflow-auto">
         {process.env.NODE_ENV === "development" && (
           <div className="fixed top-0 right-0 bg-primary-500 p-2 rounded text-pink-200">
             <Link to="/">Home</Link>
             <Link to="/test">Testing</Link>
           </div>
         )}
-        {children}
+          {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -107,10 +106,8 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  const data = useLoaderData<typeof loader>();
   if (isRouteErrorResponse(error)) {
     return (
-      <ThemeProvider specifiedTheme={data.theme}>
         <Document title={`${error.status} ${error.statusText}`}>
           <div className="flex min-h-screen w-screen items-center justify-center">
             <div className="bg-surface-variant rounded-lg bg-opacity-20 p-3">
@@ -123,19 +120,16 @@ export function ErrorBoundary() {
             </div>
           </div>
         </Document>
-      </ThemeProvider>
     );
   }
 
   const errorMessage = error instanceof Error ? error.message : "Unknown error";
   return (
-    <ThemeProvider specifiedTheme={data.theme}>
       <Document title="Uh-oh!">
         <div className="overflow-scroll">
           <h1>App Error</h1>
           <pre>{errorMessage}</pre>
         </div>
       </Document>
-    </ThemeProvider>
   );
 }

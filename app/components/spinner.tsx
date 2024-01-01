@@ -2,21 +2,19 @@ import type { FC } from "react";
 import { useNavigation } from "@remix-run/react";
 
 type SpinnerProps = {
-  color?: "blue"|"red"|"white"|"whiteOnly";
+  color?: "blue" | "red" | "white" | "whiteOnly";
 };
 
 const Spinner: FC<SpinnerProps> = ({ color = "blue" }) => {
   const colorClass = {
-    blue:"text-blue-500",
-    red:"text-red-500",
-    white:'text-white dark:text-black',
-    whiteOnly:"text-white"
-  }
+    blue: "text-blue-500",
+    red: "text-red-500",
+    white: "text-white dark:text-black",
+    whiteOnly: "text-white",
+  };
   return (
     <div
-      className={`animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent ${
-        colorClass[color]
-      } rounded-full bg-transparent`}
+      className={`animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent ${colorClass[color]} rounded-full bg-transparent`}
       role="status"
       aria-label="loading"
     >
@@ -25,9 +23,7 @@ const Spinner: FC<SpinnerProps> = ({ color = "blue" }) => {
   );
 };
 
-export const AutoSpinner: FC<SpinnerProps> = ({
-  color = "white",
-}) => {
+export const AutoSpinner: FC<SpinnerProps> = ({ color = "white" }) => {
   const navigation = useNavigation();
   return (
     <div

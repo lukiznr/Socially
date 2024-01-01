@@ -21,10 +21,10 @@ async function uploadImage(data: AsyncIterable<Uint8Array>) {
             return;
           }
           resolve(result);
-        }
+        },
       );
       await writeAsyncIterableToWritable(data, uploadStream);
-    }
+    },
   );
 
   return uploadPromise;

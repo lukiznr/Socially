@@ -1,8 +1,9 @@
-import { useState, type FC } from "react";
+import type { FC } from "react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import type { UserPostType } from "~/types/Post";
 import Card from "./card";
 import Button from "./button";
+import Avatar from "./avatar";
 const UserPost: FC<UserPostType> = ({
   id,
   userId,
@@ -11,32 +12,11 @@ const UserPost: FC<UserPostType> = ({
   Picture,
   content,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  let nextImage, prevImage, imageCount;
-  if (Picture) {
-    imageCount = Picture.length;
-    nextImage = () => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % Picture.length);
-    };
-
-    prevImage = () => {
-      setCurrentIndex(
-        (prevIndex) => (prevIndex - 1 + Picture.length) % Picture.length
-      );
-    };
-  }
   return (
     <>
       <Card>
-        <div className="w-full p-2 flex justify-between items-center">
-          {author.picture && (
-            <img
-              src={author.picture}
-              alt="User"
-              className="h-11 w-11 rounded-full object-cover"
-            />
-          )}
+        <div className="w-full flex mb-2 justify-between items-center">
+          <Avatar name={author.name} src={author.picture} size="md"/>
           <div className="flex-1 ml-2">
             <div className="text-lg font-bold">{author.name}</div>
             <div className="text-gray-500">@{author.userName}</div>
@@ -46,43 +26,18 @@ const UserPost: FC<UserPostType> = ({
           </Button>
         </div>
 
-        {Picture?.length == 0 ? (
-          <img src={Picture[0].url} alt="memek" />
-        ) : (
-          <div className="relative">
-            <button
-              onClick={prevImage}
-              className="mr-2 absolute left-0 top-0 bottom-0"
-            >
-              &lt;
-            </button>
-            <div className="w-full aspect-square overflow-hidden">
-              <div
-                className="flex flex-nowrap overflow-x-auto transition-transform duration-300 ease-in-out h-full w-full"
-                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-              >
-                {Picture?.map((image, index) => (
-                  <div key={index} className="w-full h-full">
-                    <img
-                      src={image.url}
-                      alt={`Image ${index + 1}`}
-                      className="w-full h-full aspect-square object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <button
-              onClick={nextImage}
-              className="ml-2 absolute right-0 top-0 bottom-0"
-            >
-              &gt;
-            </button>
-          </div>
-        )}
+        {Picture && <ImageSlider images={Picture} />}
         {content && (
-          <p className="mt-4 text-sm">
-            <p>{createdAt}</p>
+          <p className="mt-2 text-sm">
+            <p className="text-surface-700 dark:text-surface-300">
+              {new Date(createdAt).toLocaleString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </p>
             {content}
           </p>
         )}
@@ -90,5 +45,36 @@ const UserPost: FC<UserPostType> = ({
     </>
   );
 };
+
+export function ImageSlider({ images }: { images: { url: string }[] }) {
+  return (
+    <div className="w-full">
+      <div
+        className="w-full flex flex-row overflow-x-scroll snap-x snap-mandatory
+  [&::-webkit-scrollbar]:w-3
+  [&::-webkit-scrollbar-track]:rounded-b-full
+  [&::-webkit-scrollbar-track]:bg-surface-200
+  [&::-webkit-scrollbar-thumb]:rounded-b-full
+  [&::-webkit-scrollbar-thumb]:bg-primary-300
+  dark:[&::-webkit-scrollbar-track]:bg-surface-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-primary-800"
+      >
+        {images.map((image, index) => {
+          return (
+            <div
+              key={index}
+              className="w-full aspect-square flex-shrink-0 snap-start rounded-t-lg bg-white"
+            >
+              <img
+                src={image.url}
+                className="w-full h-full object-cover rounded-t-lg"
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export { UserPost };

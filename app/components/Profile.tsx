@@ -1,6 +1,9 @@
 import { UserIcon } from "@heroicons/react/24/outline";
+import { Link } from "@remix-run/react";
 import React from "react";
 import Button from "./button";
+import Card from "./card";
+import Avatar from "./avatar";
 type UserProfileProps = {
   name: string;
   userName: string;
@@ -16,27 +19,24 @@ const UserProfile: React.FC<UserProfileProps> = ({
   picture,
   bio,
 }) => {
-  let profileClassName =
-    "w-24 h-24 rounded-full mx-auto mb-4 border-4 border-primary";
   return (
-    <div className="bg-surface-variant container mt-4 flex rounded-lg p-4 shadow-md">
-      {picture ? (
-        <img src={picture} alt={name} className={profileClassName} />
-      ) : (
-        <div>
-          <UserIcon className={profileClassName} />
-        </div>
-      )}
-      <div className="ml-4 flex-1">
-        <h2 className="mb-1 text-xl font-bold">{name}</h2>
-        <p className="mb-1">@{userName}</p>
-        {bio && <p className="">{bio}</p>}
-        <div>
-          <Button>Edit Profile</Button>
-          <Button>Logout</Button>
+    <Card>
+      <div className="flex">
+        <Avatar size="lg" name={name} src={picture}/>
+        <div className="ml-4 flex-1">
+          <h2 className="mb-1 text-xl font-bold">{name}</h2>
+          <p className="mb-1">@{userName}</p>
+          <p className="mb-1">{email}</p>
+          {bio && <p className="">{bio}</p>}
+          <div>
+            <Button>Edit Profile</Button>
+            <Button>
+              <Link to="/logout">Logout</Link>
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

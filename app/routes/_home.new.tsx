@@ -14,39 +14,49 @@ import { authenticator } from "~/services/auth.server";
 import NewPost from "~/components/NewPost";
 
 export let action = async ({ request }: ActionFunctionArgs) => {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
-  });
-  const userId = user.id;
-  const uploadHandler: UploadHandler = composeUploadHandlers(
-    async ({ name, data }) => {
-      if (name !== "files[]") {
-        return undefined;
-      }
+  try {
+    const user = await authenticator.isAuthenticated(request, {
+      failureRedirect: "/login",
+    });
 
-      const uploadedImage = await uploadImage(data);
-      if (!uploadedImage) {
-        return undefined;
-      }
-      return uploadedImage.secure_url;
-    },
+    const userId = user.id;
 
-    createMemoryUploadHandler()
-  );
-  const formData = await parseMultipartFormData(request, uploadHandler);
-  const pictureList = formData.getAll("files[]");
-  const content = formData.get("content") as string;
-  const markdown = formData.get("markdown") ? true : false;
-  const picture: { url: string }[] = [];
-  pictureList.map((data) => {
-    picture.push({ url: data.toString() });
-  });
+    const uploadHandler: UploadHandler = composeUploadHandlers(
+      async ({ name, data }) => {
+        if (name !== "files[]") {
+          return undefined;
+        }
 
-  const post = await createPost({ userId, content, markdown, picture });
-  if (!post) {
-    return json({ error: "Error bjir", post: null });
+        const uploadedImage = await uploadImage(data);
+
+        if (!uploadedImage) {
+          return undefined;
+        }
+
+        return uploadedImage.secure_url;
+      },
+      createMemoryUploadHandler(),
+    );
+
+    const formData = await parseMultipartFormData(request, uploadHandler);
+
+    const pictureList = formData.getAll("files[]");
+    const content = formData.get("content") as string;
+    const markdown = formData.get("markdown") ? true : false;
+
+    const picture = pictureList.map((data) => ({ url: data.toString() }));
+
+    const post = await createPost({ userId, content, markdown, picture });
+
+    if (!post) {
+      return json({ error: "Error bjir", post: null });
+    }
+
+    return json({ error: null, post });
+  } catch (error) {
+    console.error("Error:", error);
+    return json({ error: "Internal server error", post: null });
   }
-  return json({ error: null, post });
 };
 
 export default function New() {

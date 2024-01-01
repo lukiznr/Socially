@@ -1,7 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import { singleton } from "./singleton.server";
-//import type { d } from "@prisma/client"
-const db = singleton("prisma", () => new PrismaClient());
+import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from '@prisma/extension-accelerate'
+
+const db = new PrismaClient()
+//const db = singleton("prisma", () => new PrismaClient());
 db.$connect();
 
 export { db };
@@ -87,6 +89,20 @@ export async function getPostById(id: string) {
     },
   });
 }
+export async function editPost(
+  id: string,
+  data: { content?: string; draft?: boolean; markdown?: boolean }
+) {
+  return await db.post.update({
+    where: { id },
+    data,
+  });
+}
+export async function deletePost(id: string) {
+  return await db.post.delete({
+    where: { id },
+  });
+}
 
 // Comment
 export async function getComment(postId: string) {
@@ -105,7 +121,7 @@ export async function getComment(postId: string) {
   });
 }
 
-export async function setComment(data: Comment) {
+export async function createComment(data: Comment) {
   return await db.comment.create({
     data: {
       postsId: data.postsId,
@@ -121,4 +137,12 @@ export async function setComment(data: Comment) {
       },
     },
   });
+}
+
+export async function deleteComment(id:string){
+  return await db.comment.delete({
+    where:{
+      id:id
+    }
+  })
 }

@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import NavBar from "~/components/Navbar";
+import Header from "~/components/header";
 import { authenticator } from "~/services/auth.server";
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {
@@ -20,6 +21,7 @@ export default function HomeLayout() {
 
   return (
     <>
+      <Header />
       <Outlet />
       <NavBar avatar={avatar} />
     </>

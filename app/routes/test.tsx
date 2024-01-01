@@ -8,7 +8,7 @@ export default function Test() {
 
   const toggleTheme = () => {
     setTheme((prevTheme) =>
-      prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
+      prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT,
     );
   };
   return (
